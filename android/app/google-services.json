@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946249883269",
+    "project_id": "meadows-7190a",
+    "storage_bucket": "meadows-7190a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946249883269:android:bb0f2ffe44bfdc379313ec",
+        "android_client_info": {
+          "package_name": "com.example.meadows"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_73GDhuvJuKz7En84TDO-UCWjL1RLMs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
