@@ -8,6 +8,7 @@ Postmodel PostmodelFromJson(String str) => Postmodel.fromJson(json.decode(str));
 String PostmodelToJson(Postmodel data) => json.encode(data.toJson());
 
 class Postmodel {
+  String? id;
   String? dp;
   String? image;
   String? user;
@@ -17,7 +18,8 @@ class Postmodel {
   List? likes;
   List? comments;
   Postmodel(
-      {this.caption,
+      {this.id,
+      this.caption,
       this.image,
       this.category,
       this.date,
@@ -26,6 +28,7 @@ class Postmodel {
       this.comments});
   factory Postmodel.fromJson(map) {
     return Postmodel(
+        id: map['id'],
         caption: map['caption'],
         image: map['image'],
         category: map['category'],
@@ -36,6 +39,7 @@ class Postmodel {
   }
   Map<String, dynamic> toJson() {
     return {
+      'id': 'id',
       'caption': caption,
       'image': image,
       'category': category,

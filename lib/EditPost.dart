@@ -35,9 +35,16 @@ class _EditPostState extends State<EditPost> {
             padding: EdgeInsets.only(top: 50, left: 10, right: 10),
             child: Column(
               children: [
-                Image.network(
-                  widget.url.toString(),
-                  scale: 6,
+                Container(
+                  height: 400,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 200, 200, 200),
+                  ),
+                  child: Image.network(
+                    widget.url.toString(),
+                    scale: 6,
+                  ),
                 ),
                 SizedBox(
                   height: 10,

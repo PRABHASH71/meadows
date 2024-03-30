@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meadows/EditPost.dart';
+import 'package:meadows/Firebase%20Helper/FirebaseFirestorehelper.dart';
+import 'package:meadows/Models/PostModel.dart';
+import 'package:meadows/Models/Usermodel.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
@@ -32,8 +35,11 @@ class _CreatePostState extends State<CreatePost> {
     String uniquename = DateTime.now().microsecondsSinceEpoch.toString();
     Reference referenceroot = FirebaseStorage.instance.ref();
     Reference referencedirImage = referenceroot.child('images');
+    Usermodel um = await FirebaseFirestoreHelper.instance.getUserInformation();
+    List<Postmodel> pm = await FirebaseFirestoreHelper.instance.getPost();
 
-    Reference refereImageUpload = referencedirImage.child(uniquename + ".png");
+    Reference refereImageUpload = referencedirImage
+        .child(um.userid.toString() + (pm.length + 1).toString() + ".png");
     try {
       await refereImageUpload.putFile(File(value!.path));
       image2 = await refereImageUpload.getDownloadURL();

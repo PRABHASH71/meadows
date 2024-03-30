@@ -1,4 +1,8 @@
+// ignore_for_file: await_only_futures
+
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,11 +53,41 @@ class FirebaseFirestoreHelper {
     return Usermodel.fromJson(querySnapshot.data()!);
   }
 
+  Future<List> getUsersList() async {
+    List<List<Postmodel>> finalised = [];
+    List<Postmodel> lm = [];
+    try {
+      var l = await _firebaseFirestore.collection("users").get();
+      List orderList = await l.docs.map((element) => element.id).toList();
+
+      for (var i = 0; i < orderList.length; i++) {
+        var l = await _firebaseFirestore
+            .collection("users")
+            .doc(orderList[i])
+            .collection("newpost")
+            .get();
+
+        if (l != []) {
+          lm = l.docs
+              .map((element) => Postmodel.fromJson(element.data()))
+              .toList();
+
+          finalised.add(lm);
+        }
+      }
+
+      return finalised;
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+      return [];
+    }
+  }
+
   Future<List<Postmodel>> getPost() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
           await _firebaseFirestore
-              .collection("post")
+              .collection("users")
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection("newpost")
               .get();
@@ -69,11 +103,31 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  // Future<List<Postmodel>> getpreferedPost(String uid) async {
+  //   try {
+  //     QuerySnapshot<Map<String, dynamic>> querySnapshot =
+  //         await _firebaseFirestore
+  //             .collection("users")
+  //             .doc(uid)
+  //             .collection("newpost")
+  //             .get();
+
+  //     List<Postmodel> postList = querySnapshot.docs
+  //         .map((element) => Postmodel.fromJson(element.data()))
+  //         .toList();
+  //     Fluttertoast.showToast(msg: "successfull");
+  //     return postList;
+  //   } catch (e) {
+  //     Fluttertoast.showToast(msg: e.toString());
+  //     return [];
+  //   }
+  // }
+
   Future<bool> uploadtryProductFirebase(String userid, String caption,
       String dp, String image, DateTime date, String user) async {
     try {
       DocumentReference documentReference = _firebaseFirestore
-          .collection("post")
+          .collection("users")
           .doc(userid)
           .collection("newpost")
           .doc();
